@@ -11,5 +11,7 @@ def main():
     for line in cursor.fetchall():
         print(line)
 
+    connection.close()
+
 if __name__ == '__main__':
     main()
