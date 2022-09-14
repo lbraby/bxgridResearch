@@ -36,9 +36,7 @@ def main():
 
         targetIdsResults[fileid] = {**filesResults, **replicasResults}
 
-
-    #idResults = {**filesResults, **replicasResults}
-
+    # save query results in json file
     with open("sample.json", "w") as outfile:
         outfile.write(json.dumps(targetIdsResults, indent=4, default=str))
 
