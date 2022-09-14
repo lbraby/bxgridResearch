@@ -1,9 +1,0 @@
-sensorid,name,model,spectrum,resolution
-nd1N00005,"ND 385 Fitzpatrick, Nikon D70 ca",,,
-nd1N00011,Nikon,D80,Visible,"3872x2592 pixels</Resolution>
-"
-nd1N00013,Nikon,D70,Visible,"3008x2000 pixels</Resolution>
-"
-nd1N00012,Nikon D80-Raw + Fine Setting,D80,Visible,3872x2592 pixels
-nd1N00040,Nikon D90 - Raw + Fine,D90,Visible,4288 x 2848 [L]
-nd1N00067,Nikon Coolpix,S8100,Visible,"12M (High) [4000 x 3000], 12M [4000 x 3000], 8M [3264 x 2448], 5M [2592 x 1944], 3M [2048 x 1536], PC [1024 x 768], VGA [640 x 480], 16:9 [3968 x 2232]"
