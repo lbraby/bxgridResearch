@@ -4,8 +4,15 @@ Fall 2022 Research work for Notre Dame's [Biometrics Research Grid](https://bxgr
 ### Week 1
 - set up miniconda
   - python 3.7
-  - mysql-python-connector
-- wrote example queries in [exampleQueries](https://github.com/lbraby/bxgridResearch/tree/main/exampleQueries)
+  - [mysql-python-connector](https://dev.mysql.com/doc/connector-python/en/connector-python-example-connecting.html)
+- wrote 3 example queries to increase comfortability with my-python-connector
   - silentGeneration.py: select all users born before 1945
   - subjectOnDay.py: select all face images of subject on set day
   - nikonSensors.py: select all nikon sensors
+### Week 2
+- metadata
+  - query files and replicas tables for 10 fileids using mysql-python-connector
+  - convert tuple results to dictionary and store in [chirpedFiles.json](https://github.com/lbraby/bxgridResearch/blob/main/Week02_chirpingFiles/chirpedFiles.json)
+- files
+  - [chirp](https://cctools.readthedocs.io/en/stable/chirp/) each file from a replica machine
+  - validate chirped file by computing md5sum and comparing with checksum in query results
