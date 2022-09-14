@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import re
+import os
 import json
 import mysql.connector
 
@@ -24,7 +25,7 @@ def MySQL_query(query, connection):
     return resultsDictionary
 
 def main():
-    targetIds = ['234334', '234335', '234336', '234337', '234432', '234433', '234434', '234435', '234436', '234437']
+    targetIds = ['235221', '235222', '235220', '235217', '235218', '235219', '235216', '235215', '235214', '235213']
     targetIdsResults = {}
 
     connection = MySQL_connect('ccldb.crc.nd.edu', 'biometrics')
@@ -33,11 +34,18 @@ def main():
     for fileid in targetIds:
         filesResults = MySQL_query(f'SELECT * from files where fileid={fileid}', connection)
         replicasResults = MySQL_query(f'SELECT * from replicas where fileid={fileid}', connection)
-
         targetIdsResults[fileid] = {**filesResults, **replicasResults}
 
+        print(f'chirping {replicasResults["replicas"][1]["path"]} from {replicasResults["replicas"][1]["host"]}')
+        os.system(f'/afs/crc.nd.edu/group/ccl/software/x86_64/redhat8/cctools/current/bin/chirp {replicasResults["replicas"][1]["host"]} get {replicasResults["replicas"][1]["path"]}')
+
+        #verify file with md5sum
+        md5Result = os.popen(f'md5sum {replicasResults["replicas"][1]["path"].split("/")[-1]}').read().split()[0]
+        if md5Result == filesResults["files"][0]["checksum"]:
+            print("SUCCESS: matching checksum")
+
     # save query results in json file
-    with open("sample.json", "w") as outfile:
+    with open("chirpedFiles.json", "w") as outfile:
         outfile.write(json.dumps(targetIdsResults, indent=4, default=str))
 
     connection.close()
