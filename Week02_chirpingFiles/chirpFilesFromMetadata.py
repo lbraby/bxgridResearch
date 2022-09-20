@@ -25,22 +25,26 @@ def MySQL_query(query, connection):
     return resultsDictionary
 
 def main():
+    cwd = os.getcwd()
     targetIds = ['235221', '235222', '235220', '235217', '235218', '235219', '235216', '235215', '235214', '235213']
     targetIdsResults = {}
 
     connection = MySQL_connect('ccldb.crc.nd.edu', 'biometrics')
 
-    # query files and replicase tables for each id in targetIds
+    # query files and replicas tables for each id in targetIds
     for fileid in targetIds:
+        if not os.path.exists(cwd + '/chirpedFiles'):
+            os.makedirs(cwd + '/chirpedFiles')
+
         filesResults = MySQL_query(f'SELECT * from files where fileid={fileid}', connection)
         replicasResults = MySQL_query(f'SELECT * from replicas where fileid={fileid}', connection)
         targetIdsResults[fileid] = {**filesResults, **replicasResults}
 
         print(f'chirping {replicasResults["replicas"][1]["path"]} from {replicasResults["replicas"][1]["host"]}')
-        os.system(f'/afs/crc.nd.edu/group/ccl/software/x86_64/redhat8/cctools/current/bin/chirp {replicasResults["replicas"][1]["host"]} get {replicasResults["replicas"][1]["path"]}')
+        os.system(f'/afs/crc.nd.edu/group/ccl/software/x86_64/redhat8/cctools/current/bin/chirp {replicasResults["replicas"][1]["host"]} get {replicasResults["replicas"][1]["path"]} chirpedFiles/{filesResults["files"][0]["fileid"]}_{replicasResults["replicas"][1]["replicaid"]}.{filesResults["files"][0]["extension"]}')
 
         #verify file with md5sum
-        md5Result = os.popen(f'md5sum {replicasResults["replicas"][1]["path"].split("/")[-1]}').read().split()[0]
+        md5Result = os.popen(f'md5sum chirpedFiles/{replicasResults["replicas"][1]["path"].split("/")[-1]}').read().split()[0]
         if md5Result == filesResults["files"][0]["checksum"]:
             print("SUCCESS: matching checksum")
 
