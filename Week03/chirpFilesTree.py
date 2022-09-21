@@ -59,10 +59,26 @@ def chirp_files(filteredResults, tablename, branchKeys, namingParameters):
                 md5sum = os.popen(f'md5sum {fullFilePath}').read().split()[0]
                 if md5sum == entry['checksum']:
                     print("SUCCESS: file chirped with matching checksum")
+                    write_to_json(dirPath + '/results.json', replicaEntries)
                     break
                 else:
                     print("FAILURE: chirped file does not match checksum")
+                    # TODO: delete file if md5sum fails
 
+def write_to_json(filepath, dictionary):
+    # file does not exist
+    if not os.path.exists(filepath):
+        with open(filepath, 'w') as newfile:
+            newfile.write(json.dumps({'results' : []}, indent=4))
+
+    # append replica entry to json
+    fileData = {}
+    # TODO: check if entry already in json
+    with open(filepath, 'r') as results:
+        fileData = json.load(results)
+        fileData['results'].append(dictionary)
+    with open(filepath, 'w') as results:
+        results.write(json.dumps(fileData, indent=4))
 
 def main():
     # input
