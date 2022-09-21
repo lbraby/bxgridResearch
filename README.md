@@ -16,3 +16,8 @@ Fall 2022 Research work for Notre Dame's [Biometrics Research Grid](https://bxgr
 - files
   - [chirp](https://cctools.readthedocs.io/en/stable/chirp/) each file from a replica machine
   - validate chirped file by computing md5sum and comparing with checksum in query results
+### Week 3
+- chirp files into directory following table/subjectid/date directory schema
+  - each file's corresponding query results are stored in directory's results.json
+- iterate through replicas until successful chirp
+  - in previous week, only attempted chirp on one host
