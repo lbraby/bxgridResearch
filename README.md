@@ -21,3 +21,7 @@ Fall 2022 Research work for Notre Dame's [Biometrics Research Grid](https://bxgr
   - each file's corresponding query results are stored in directory's results.json
 - iterate through replicas until successful chirp
   - in previous week, only attempted chirp on one host
+### Week 4
+- increased number of files chirped into treed directories
+- restructured code from week 3
+- ran performance tests on chirping
