@@ -1,0 +1,549 @@
+{
+    "files": [
+        {
+            "fileid": 638196,
+            "replicas": [
+                {
+                    "replicaid": 2973619,
+                    "host": "bxgrid.crc.nd.edu",
+                    "path": "bxgrid/6/9/638196_2973619.jpg",
+                    "state": "ok",
+                    "lastcheck": "02_06_2022"
+                },
+                {
+                    "replicaid": 31720302,
+                    "host": "disc11.crc.nd.edu",
+                    "path": "/bxgrid/6/9/638196_31720302.jpg",
+                    "state": "ok",
+                    "lastcheck": "09_08_2022"
+                },
+                {
+                    "replicaid": 4332848,
+                    "host": "disc18.crc.nd.edu",
+                    "path": "bxgrid/6/9/638196_4332848.jpg",
+                    "state": "ok",
+                    "lastcheck": "04_15_2022"
+                }
+            ]
+        },
+        {
+            "fileid": 638195,
+            "replicas": [
+                {
+                    "replicaid": 2973616,
+                    "host": "bxgrid.crc.nd.edu",
+                    "path": "bxgrid/5/9/638195_2973616.jpg",
+                    "state": "ok",
+                    "lastcheck": "02_06_2022"
+                },
+                {
+                    "replicaid": 31720303,
+                    "host": "disc21.crc.nd.edu",
+                    "path": "/bxgrid/5/9/638195_31720303.jpg",
+                    "state": "ok",
+                    "lastcheck": "09_09_2022"
+                },
+                {
+                    "replicaid": 4332849,
+                    "host": "disc09.crc.nd.edu",
+                    "path": "bxgrid/5/9/638195_4332849.jpg",
+                    "state": "ok",
+                    "lastcheck": "04_14_2022"
+                }
+            ]
+        },
+        {
+            "fileid": 638194,
+            "replicas": [
+                {
+                    "replicaid": 2973613,
+                    "host": "bxgrid.crc.nd.edu",
+                    "path": "bxgrid/4/9/638194_2973613.jpg",
+                    "state": "ok",
+                    "lastcheck": "02_06_2022"
+                },
+                {
+                    "replicaid": 31720304,
+                    "host": "disc09.crc.nd.edu",
+                    "path": "/bxgrid/4/9/638194_31720304.jpg",
+                    "state": "ok",
+                    "lastcheck": "09_08_2022"
+                },
+                {
+                    "replicaid": 4332850,
+                    "host": "disc20.crc.nd.edu",
+                    "path": "bxgrid/4/9/638194_4332850.jpg",
+                    "state": "ok",
+                    "lastcheck": "05_20_2022"
+                }
+            ]
+        },
+        {
+            "fileid": 638193,
+            "replicas": [
+                {
+                    "replicaid": 2973610,
+                    "host": "bxgrid.crc.nd.edu",
+                    "path": "bxgrid/3/9/638193_2973610.jpg",
+                    "state": "ok",
+                    "lastcheck": "02_06_2022"
+                },
+                {
+                    "replicaid": 31720311,
+                    "host": "disc13.crc.nd.edu",
+                    "path": "/bxgrid/3/9/638193_31720311.jpg",
+                    "state": "ok",
+                    "lastcheck": "09_08_2022"
+                },
+                {
+                    "replicaid": 4332851,
+                    "host": "disc20.crc.nd.edu",
+                    "path": "bxgrid/3/9/638193_4332851.jpg",
+                    "state": "ok",
+                    "lastcheck": "05_20_2022"
+                }
+            ]
+        },
+        {
+            "fileid": 638192,
+            "replicas": [
+                {
+                    "replicaid": 2973607,
+                    "host": "bxgrid.crc.nd.edu",
+                    "path": "bxgrid/2/9/638192_2973607.jpg",
+                    "state": "ok",
+                    "lastcheck": "02_06_2022"
+                },
+                {
+                    "replicaid": 31720305,
+                    "host": "disc19.crc.nd.edu",
+                    "path": "/bxgrid/2/9/638192_31720305.jpg",
+                    "state": "ok",
+                    "lastcheck": "09_08_2022"
+                },
+                {
+                    "replicaid": 4332852,
+                    "host": "disc12.crc.nd.edu",
+                    "path": "bxgrid/2/9/638192_4332852.jpg",
+                    "state": "ok",
+                    "lastcheck": "04_15_2022"
+                }
+            ]
+        },
+        {
+            "fileid": 638191,
+            "replicas": [
+                {
+                    "replicaid": 5365202,
+                    "host": "disc20.crc.nd.edu",
+                    "path": "bxgrid/1/9/638191_5365202.jpg",
+                    "state": "ok",
+                    "lastcheck": "05_29_2022"
+                },
+                {
+                    "replicaid": 2973604,
+                    "host": "bxgrid.crc.nd.edu",
+                    "path": "bxgrid/1/9/638191_2973604.jpg",
+                    "state": "ok",
+                    "lastcheck": "02_06_2022"
+                },
+                {
+                    "replicaid": 31988671,
+                    "host": "disc11.crc.nd.edu",
+                    "path": "/bxgrid/1/9/638191_31988671.jpg",
+                    "state": "ok",
+                    "lastcheck": "11_22_2021"
+                }
+            ]
+        },
+        {
+            "fileid": 638190,
+            "replicas": [
+                {
+                    "replicaid": 2973601,
+                    "host": "bxgrid.crc.nd.edu",
+                    "path": "bxgrid/0/9/638190_2973601.jpg",
+                    "state": "ok",
+                    "lastcheck": "02_06_2022"
+                },
+                {
+                    "replicaid": 31720312,
+                    "host": "disc11.crc.nd.edu",
+                    "path": "/bxgrid/0/9/638190_31720312.jpg",
+                    "state": "ok",
+                    "lastcheck": "09_08_2022"
+                },
+                {
+                    "replicaid": 4332855,
+                    "host": "disc20.crc.nd.edu",
+                    "path": "bxgrid/0/9/638190_4332855.jpg",
+                    "state": "ok",
+                    "lastcheck": "05_20_2022"
+                }
+            ]
+        },
+        {
+            "fileid": 638189,
+            "replicas": [
+                {
+                    "replicaid": 2973598,
+                    "host": "bxgrid.crc.nd.edu",
+                    "path": "bxgrid/9/8/638189_2973598.jpg",
+                    "state": "ok",
+                    "lastcheck": "02_06_2022"
+                },
+                {
+                    "replicaid": 31720313,
+                    "host": "disc15.crc.nd.edu",
+                    "path": "/bxgrid/9/8/638189_31720313.jpg",
+                    "state": "ok",
+                    "lastcheck": "09_08_2022"
+                },
+                {
+                    "replicaid": 4332856,
+                    "host": "disc02.crc.nd.edu",
+                    "path": "bxgrid/9/8/638189_4332856.jpg",
+                    "state": "ok",
+                    "lastcheck": "02_24_2022"
+                }
+            ]
+        },
+        {
+            "fileid": 638188,
+            "replicas": [
+                {
+                    "replicaid": 5365203,
+                    "host": "disc20.crc.nd.edu",
+                    "path": "bxgrid/8/8/638188_5365203.jpg",
+                    "state": "ok",
+                    "lastcheck": "05_30_2022"
+                },
+                {
+                    "replicaid": 2973595,
+                    "host": "bxgrid.crc.nd.edu",
+                    "path": "bxgrid/8/8/638188_2973595.jpg",
+                    "state": "ok",
+                    "lastcheck": "02_06_2022"
+                },
+                {
+                    "replicaid": 31989773,
+                    "host": "disc01.crc.nd.edu",
+                    "path": "/bxgrid/8/8/638188_31989773.jpg",
+                    "state": "ok",
+                    "lastcheck": "11_22_2021"
+                }
+            ]
+        },
+        {
+            "fileid": 638187,
+            "replicas": [
+                {
+                    "replicaid": 2973592,
+                    "host": "bxgrid.crc.nd.edu",
+                    "path": "bxgrid/7/8/638187_2973592.jpg",
+                    "state": "ok",
+                    "lastcheck": "02_06_2022"
+                },
+                {
+                    "replicaid": 31720306,
+                    "host": "disc24.crc.nd.edu",
+                    "path": "/bxgrid/7/8/638187_31720306.jpg",
+                    "state": "ok",
+                    "lastcheck": "09_08_2022"
+                },
+                {
+                    "replicaid": 4332858,
+                    "host": "disc03.crc.nd.edu",
+                    "path": "bxgrid/7/8/638187_4332858.jpg",
+                    "state": "ok",
+                    "lastcheck": "04_19_2022"
+                }
+            ]
+        },
+        {
+            "fileid": 638186,
+            "replicas": [
+                {
+                    "replicaid": 2973589,
+                    "host": "bxgrid.crc.nd.edu",
+                    "path": "bxgrid/6/8/638186_2973589.jpg",
+                    "state": "ok",
+                    "lastcheck": "02_06_2022"
+                },
+                {
+                    "replicaid": 31720307,
+                    "host": "disc16.crc.nd.edu",
+                    "path": "/bxgrid/6/8/638186_31720307.jpg",
+                    "state": "ok",
+                    "lastcheck": "09_08_2022"
+                },
+                {
+                    "replicaid": 4332859,
+                    "host": "disc10.crc.nd.edu",
+                    "path": "bxgrid/6/8/638186_4332859.jpg",
+                    "state": "ok",
+                    "lastcheck": "04_15_2022"
+                }
+            ]
+        },
+        {
+            "fileid": 638185,
+            "replicas": [
+                {
+                    "replicaid": 2973586,
+                    "host": "bxgrid.crc.nd.edu",
+                    "path": "bxgrid/5/8/638185_2973586.jpg",
+                    "state": "ok",
+                    "lastcheck": "02_06_2022"
+                },
+                {
+                    "replicaid": 31720320,
+                    "host": "disc12.crc.nd.edu",
+                    "path": "/bxgrid/5/8/638185_31720320.jpg",
+                    "state": "ok",
+                    "lastcheck": "09_08_2022"
+                },
+                {
+                    "replicaid": 4332860,
+                    "host": "disc15.crc.nd.edu",
+                    "path": "bxgrid/5/8/638185_4332860.jpg",
+                    "state": "ok",
+                    "lastcheck": "04_14_2022"
+                }
+            ]
+        },
+        {
+            "fileid": 638184,
+            "replicas": [
+                {
+                    "replicaid": 2973583,
+                    "host": "bxgrid.crc.nd.edu",
+                    "path": "bxgrid/4/8/638184_2973583.jpg",
+                    "state": "ok",
+                    "lastcheck": "02_06_2022"
+                },
+                {
+                    "replicaid": 31720321,
+                    "host": "disc01.crc.nd.edu",
+                    "path": "/bxgrid/4/8/638184_31720321.jpg",
+                    "state": "ok",
+                    "lastcheck": "09_08_2022"
+                },
+                {
+                    "replicaid": 4332861,
+                    "host": "disc16.crc.nd.edu",
+                    "path": "bxgrid/4/8/638184_4332861.jpg",
+                    "state": "ok",
+                    "lastcheck": "04_17_2022"
+                }
+            ]
+        },
+        {
+            "fileid": 638183,
+            "replicas": [
+                {
+                    "replicaid": 31812889,
+                    "host": "disc02.crc.nd.edu",
+                    "path": "/bxgrid/3/8/638183_31812889.jpg",
+                    "state": "creating",
+                    "lastcheck": "12_27_2017"
+                },
+                {
+                    "replicaid": 2973580,
+                    "host": "bxgrid.crc.nd.edu",
+                    "path": "bxgrid/3/8/638183_2973580.jpg",
+                    "state": "ok",
+                    "lastcheck": "02_06_2022"
+                },
+                {
+                    "replicaid": 31720322,
+                    "host": "disc09.crc.nd.edu",
+                    "path": "/bxgrid/3/8/638183_31720322.jpg",
+                    "state": "creating",
+                    "lastcheck": "12_25_2017"
+                },
+                {
+                    "replicaid": 4332862,
+                    "host": "disc14.crc.nd.edu",
+                    "path": "bxgrid/3/8/638183_4332862.jpg",
+                    "state": "ok",
+                    "lastcheck": "04_22_2022"
+                },
+                {
+                    "replicaid": 31762889,
+                    "host": "disc04.crc.nd.edu",
+                    "path": "/bxgrid/3/8/638183_31762889.jpg",
+                    "state": "creating",
+                    "lastcheck": "12_26_2017"
+                },
+                {
+                    "replicaid": 31862889,
+                    "host": "disc02.crc.nd.edu",
+                    "path": "/bxgrid/3/8/638183_31862889.jpg",
+                    "state": "creating",
+                    "lastcheck": "12_28_2017"
+                },
+                {
+                    "replicaid": 31912889,
+                    "host": "disc04.crc.nd.edu",
+                    "path": "/bxgrid/3/8/638183_31912889.jpg",
+                    "state": "creating",
+                    "lastcheck": "12_29_2017"
+                },
+                {
+                    "replicaid": 31962209,
+                    "host": "disc06.crc.nd.edu",
+                    "path": "/bxgrid/3/8/638183_31962209.jpg",
+                    "state": "creating",
+                    "lastcheck": "12_30_2017"
+                },
+                {
+                    "replicaid": 32046113,
+                    "host": "disc03.crc.nd.edu",
+                    "path": "/bxgrid/3/8/638183_32046113.jpg",
+                    "state": "creating",
+                    "lastcheck": "01_01_2018"
+                },
+                {
+                    "replicaid": 32087198,
+                    "host": "disc09.crc.nd.edu",
+                    "path": "/bxgrid/3/8/638183_32087198.jpg",
+                    "state": "creating",
+                    "lastcheck": "01_02_2018"
+                },
+                {
+                    "replicaid": 32116734,
+                    "host": "disc03.crc.nd.edu",
+                    "path": "/bxgrid/3/8/638183_32116734.jpg",
+                    "state": "creating",
+                    "lastcheck": "01_03_2018"
+                },
+                {
+                    "replicaid": 32131614,
+                    "host": "disc13.crc.nd.edu",
+                    "path": "/bxgrid/3/8/638183_32131614.jpg",
+                    "state": "creating",
+                    "lastcheck": "01_04_2018"
+                },
+                {
+                    "replicaid": 32146494,
+                    "host": "disc13.crc.nd.edu",
+                    "path": "/bxgrid/3/8/638183_32146494.jpg",
+                    "state": "creating",
+                    "lastcheck": "01_05_2018"
+                },
+                {
+                    "replicaid": 32161374,
+                    "host": "disc09.crc.nd.edu",
+                    "path": "/bxgrid/3/8/638183_32161374.jpg",
+                    "state": "ok",
+                    "lastcheck": "11_30_2021"
+                }
+            ]
+        },
+        {
+            "fileid": 638182,
+            "replicas": [
+                {
+                    "replicaid": 2973577,
+                    "host": "bxgrid.crc.nd.edu",
+                    "path": "bxgrid/2/8/638182_2973577.jpg",
+                    "state": "ok",
+                    "lastcheck": "02_06_2022"
+                },
+                {
+                    "replicaid": 31720314,
+                    "host": "disc02.crc.nd.edu",
+                    "path": "/bxgrid/2/8/638182_31720314.jpg",
+                    "state": "ok",
+                    "lastcheck": "09_08_2022"
+                },
+                {
+                    "replicaid": 4332863,
+                    "host": "disc26.crc.nd.edu",
+                    "path": "bxgrid/2/8/638182_4332863.jpg",
+                    "state": "ok",
+                    "lastcheck": "05_26_2022"
+                }
+            ]
+        },
+        {
+            "fileid": 638181,
+            "replicas": [
+                {
+                    "replicaid": 2973574,
+                    "host": "bxgrid.crc.nd.edu",
+                    "path": "bxgrid/1/8/638181_2973574.jpg",
+                    "state": "ok",
+                    "lastcheck": "02_06_2022"
+                },
+                {
+                    "replicaid": 31720323,
+                    "host": "disc15.crc.nd.edu",
+                    "path": "/bxgrid/1/8/638181_31720323.jpg",
+                    "state": "ok",
+                    "lastcheck": "09_08_2022"
+                },
+                {
+                    "replicaid": 4332864,
+                    "host": "disc12.crc.nd.edu",
+                    "path": "bxgrid/1/8/638181_4332864.jpg",
+                    "state": "ok",
+                    "lastcheck": "04_15_2022"
+                }
+            ]
+        },
+        {
+            "fileid": 638180,
+            "replicas": [
+                {
+                    "replicaid": 2973571,
+                    "host": "bxgrid.crc.nd.edu",
+                    "path": "bxgrid/0/8/638180_2973571.jpg",
+                    "state": "ok",
+                    "lastcheck": "02_06_2022"
+                },
+                {
+                    "replicaid": 31720315,
+                    "host": "disc06.crc.nd.edu",
+                    "path": "/bxgrid/0/8/638180_31720315.jpg",
+                    "state": "ok",
+                    "lastcheck": "09_08_2022"
+                },
+                {
+                    "replicaid": 4332865,
+                    "host": "disc15.crc.nd.edu",
+                    "path": "bxgrid/0/8/638180_4332865.jpg",
+                    "state": "ok",
+                    "lastcheck": "04_14_2022"
+                }
+            ]
+        },
+        {
+            "fileid": 638179,
+            "replicas": [
+                {
+                    "replicaid": 2973568,
+                    "host": "bxgrid.crc.nd.edu",
+                    "path": "bxgrid/9/7/638179_2973568.jpg",
+                    "state": "ok",
+                    "lastcheck": "02_06_2022"
+                },
+                {
+                    "replicaid": 31720324,
+                    "host": "disc23.crc.nd.edu",
+                    "path": "/bxgrid/9/7/638179_31720324.jpg",
+                    "state": "ok",
+                    "lastcheck": "09_08_2022"
+                },
+                {
+                    "replicaid": 4332866,
+                    "host": "disc13.crc.nd.edu",
+                    "path": "bxgrid/9/7/638179_4332866.jpg",
+                    "state": "ok",
+                    "lastcheck": "04_19_2022"
+                }
+            ]
+        }
+    ]
+}
