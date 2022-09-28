@@ -1,0 +1,5 @@
+limit 10 - 0.25 sec
+limit 100 - 3.30 sec
+limit 1000 - 42.20 sec
+limit 10000 - 370.77 sec
+limit 100 - 12.33 sec

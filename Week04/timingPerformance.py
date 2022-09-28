@@ -7,6 +7,7 @@ import getpass
 import datetime
 import subprocess
 import mysql.connector
+import time
 
 def MySQL_connect(hostname, db):
     usernameInput = input('Enter username: ')
@@ -46,7 +47,6 @@ def write_to_json(filepath, dictionary):
 
     # append replica entry to json
     fileData = {}
-    # TODO: check if entry already in json
     with open(filepath, 'r') as results:
         fileData = json.load(results)
         fileData['results'].append(dictionary)
@@ -147,9 +147,13 @@ def write_subject_json(subjectResults):
 
 def main():
     # input
-    query = "select * from faces_still left join files using (fileid) left join replicas using (fileid) where date like '%2002-03%' and subjectid='nd1S04261';"
+    limit = int(input("rumber of entries: "))
+    query = f"select * from faces_still left join files using (fileid) left join replicas using (fileid) order by fileid limit {limit};"
     tableName = 'faces_still'
     connection = MySQL_connect('ccldb.crc.nd.edu', 'biometrics')
+
+    # starting time
+    start = time.time()
 
     # main query
     results = MySQL_query(query, connection)
@@ -173,6 +177,13 @@ def main():
     write_subject_json(subjectResults)
 
     connection.close()
+
+    # ending time
+    end = time.time()
+    elapsed = end - start
+
+    with open("testResults.txt", "a") as timeFile:
+        timeFile.write(f"limit {limit} - {elapsed:.2f} sec\n")
 
 if __name__ == "__main__":
     main()
