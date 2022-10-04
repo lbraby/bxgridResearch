@@ -18,7 +18,11 @@ def connect(hostname, db):
 # execute query
 def query(query, connection):
     cursor = connection.cursor()
-    cursor.execute(query)
+    try:
+        cursor.execute(query)
+    except mysql.connector.Error as err:
+        print("Error executing query: ", err)
+        return 0
 
     tableName = re.search('select .* from ([^ ]*)', query, re.IGNORECASE).group(1)
     queryFields = [i[0] for i in cursor.description]
