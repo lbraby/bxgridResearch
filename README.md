@@ -25,3 +25,10 @@ Fall 2022 Research work for Notre Dame's [Biometrics Research Grid](https://bxgr
 - increased number of files chirped into treed directories
 - restructured code from week 3
 - ran performance tests on chirping
+### Week 5
+- create preliminary version of "bxgrid in a box" (bxbox)
+  - allow user to query files from specified bxgrid table into filesystem with desired schema
+  - bxbox syntax: "materialize {tablename} as {schema for filesystem} {MySQL WHERE, ORDER BY, LIMIT clauses}
+  
+- example results from bgbox materialization query in 'irises_still/'
+  - bgbox> materialize irises_still as date/weather/eye where subjectid = 'nd1S04473'
