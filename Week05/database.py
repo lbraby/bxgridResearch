@@ -29,7 +29,7 @@ def query(query, connection):
     queryResults = cursor.fetchall()
     numFields = len(queryFields)
 
-    return {tableName : [dict([(queryFields[i], results[i].strftime("%m_%d_%Y") if isinstance(results[i], datetime.datetime) else ("NULL" if results[i] is None else results[i])) for i in range(numFields)]) for results in queryResults]}
+    return {tableName : [dict([(queryFields[i], results[i].strftime("%m_%d_%Y") if isinstance(results[i], datetime.datetime) else ("NULL" if results[i] is None else ("EMPTY" if str(results[i]).strip() == "" else results[i]))) for i in range(numFields)]) for results in queryResults]}
 
 # get table columns
 def describe(table, connection):
