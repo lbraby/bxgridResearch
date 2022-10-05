@@ -29,7 +29,7 @@ def query(query, connection):
     queryResults = cursor.fetchall()
     numFields = len(queryFields)
 
-    return {tableName : [dict([(queryFields[i], results[i].strftime("%m_%d_%Y") if isinstance(results[i], datetime.datetime) else results[i]) for i in range(numFields)]) for results in queryResults]}
+    return {tableName : [dict([(queryFields[i], results[i].strftime("%m_%d_%Y") if isinstance(results[i], datetime.datetime) else ("NULL" if results[i] is None else results[i])) for i in range(numFields)]) for results in queryResults]}
 
 # get table columns
 def describe(table, connection):
@@ -84,36 +84,58 @@ def write_file_json(file, dictionary, filename):
     with open(file, 'w') as results:
         results.write(json.dumps(data, indent=4))
 
+# add entry to large metadata file
+def add_to_metadata(file, dictionary):
+    if not os.path.isfile(file):
+        with open(file, 'w') as newfile:
+            newfile.write(json.dumps({}, indent=4))
 
+    with open(file, 'r') as results:
+        data = json.load(results)
+        for keys in dictionary:
+            data[keys] = dictionary[keys]
+
+    with open(file, 'w') as results:
+        results.write(json.dumps(data, indent=4))
+
+
+
+def chirp_replica(replicas, fileResult, filename, dirPath, filePath, silent = True):
+    # attempt chirp until file successfully chirped
+    for replica in replicas:
+        host = replica['host']
+        path = replica['path']
+        if not silent: print(f'chirping {path} from {host}')
+
+        if subprocess.call(f'/afs/crc.nd.edu/group/ccl/software/x86_64/redhat8/cctools/current/bin/chirp {host} get {path} {filePath}', shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.         STDOUT) == 0:
+            md5sum = os.popen(f'md5sum {filePath}').read().split()[0]
+
+            if md5sum == fileResult['checksum']: # file successfully chirped
+                if not silent: print("SUCCESS: file chirped with matching checksum\n")
+                write_file_json(dirPath + '/metadata_refined.json', fileResult, filename)
+                return 0
+            else:
+                if not silent: print("FAILURE: chirped file does not match checksum")
+                os.remove(filePath)     # remove file with incorrect md5sum
+        else:
+            if not silent: print("FAILURE: file chirped unsuccessfully")
+    return 1
 
 # chirp files into filesystem with metadata at root and leaves
 def chirp_files(fileResults, replicaResults, tablename, scheme):
     cwd = os.getcwd()
+    root = cwd + f'/{tablename}/'
 
     for i in range(len(fileResults['files'])):
         fileResult = fileResults['files'][i]
         replicas = replicaResults['files'][i]['replicas']
 
         filename = str(fileResult['fileid']) + '.' + fileResult['extension']
-        dirPath = cwd + '/faces_still/' + '/'.join([fileResult[attribute] for attribute in scheme])
+        dirPath = root + '/'.join([fileResult[attribute] for attribute in scheme])
         filePath = dirPath + '/' + filename
 
         if not os.path.exists(dirPath):
             os.makedirs(dirPath)
 
-        for replica in replicas:
-            host = replica['host']
-            path = replica['path']
-            print(f'chirping {path} from {host}')
-            if subprocess.call(f'/afs/crc.nd.edu/group/ccl/software/x86_64/redhat8/cctools/current/bin/chirp {host} get {path} {filePath}', shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT) == 0:
-                md5sum = os.popen(f'md5sum {filePath}').read().split()[0]
-                if md5sum == fileResult['checksum']:
-                    print("SUCCESS: file chirped with matching checksum\n")
-                    write_file_json(dirPath + '/results.json', fileResult, filename)
-                    break
-                else:
-                    print("FAILURE: chirped file does not match checksum")
-                    os.remove(filePath)     # remove file with incorrect md5sum
-            else:
-                print("FAILURE: file chirped unsuccessfully")
+        chirp_replica(replicas, fileResult, filename, dirPath, filePath)
 
