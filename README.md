@@ -32,3 +32,13 @@ Fall 2022 Research work for Notre Dame's [Biometrics Research Grid](https://bxgr
   
 - example results from bgbox materialization query in 'irises_still/'
   - bgbox> materialize irises_still as date/weather/eye where subjectid = 'nd1S04473'
+### Week 6
+- convert preliminary materializer to take in command line arguments
+- new query features:
+  - user may materialize into an already existing directory if the new and old schemas match by using the '-force' flag
+  - only get metadata into filesystem by using the '-dryrun' flag
+  - can specify root directory, otherwise name of top level directory follows TABLE + timestamp convention
+- file changes:
+  - queried files may never be overwritten (even when using '-force' flag)
+  - large metadata file at top level includes subject data
+  - all files and directories created with mode 444
