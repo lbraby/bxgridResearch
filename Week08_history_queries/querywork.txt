@@ -1,0 +1,40 @@
+#### basis ####
+select * from
+	subjects
+a where (
+	select count(*) from
+		subjects
+	b where a.YOB = b.YOB and a.subjectid >= b.subjectid)
+<= 2 order by YOB;
+select * from subjects a where (select count(*) from subjects b where a.YOB = b.YOB and a.subjectid >= b.subjectid) <= 2 order by YOB;
+
+
+#### no condition ####
+select * from ((select id, date, camera, subjectid, eye, color, weather, fileid from irises_still) irises inner join files using (fileid) inner join subjects using (subjectid))
+
+#### with condition (where subjectid < "nd1S04218") ####
+select * from ((select id, date, camera, subjectid, eye, color, weather, fileid from irises_still) irises inner join files using (fileid) inner join subjects using (subjectid)) where subjectid < "nd1S04218";
+
+#### one group (gender) ####
+select * from (
+	select * from ((select id, date, camera, subjectid, eye, color, weather, fileid from irises_still) irises inner join files using (fileid) inner join subjects using (subjectid)) where subjectid < "nd1S04218"
+) a where (
+	select count(*) from (
+		select * from ((select id, date, camera, subjectid, eye, color, weather, fileid from irises_still) irises inner join files using (fileid) inner join subjects using (subjectid)) where subjectid < "nd1S04218"
+	) b where a.gender = b.gender and a.id >= b.id)
+<= 2 order by gender;
+## one line ##
+select * from (select * from ((select id, date, camera, subjectid, eye, color, weather, fileid from irises_still) irises inner join files using (fileid) inner join subjects using (subjectid)) where subjectid < "nd1S04218") a where (select count(*) from (select * from ((select id, date, camera, subjectid, eye, color, weather, fileid from irises_still) irises inner join files using (fileid) inner join subjects using (subjectid)) where subjectid < "nd1S04218") b where a.gender = b.gender and a.id >= b.id) <= 2 order by gender;
+
+#### multiple groups (gender, eye) ####
+select * from (
+	select * from ((select id, date, camera, subjectid, eye, color, weather, fileid from irises_still) irises inner join files using (fileid) inner join subjects using (subjectid)) where subjectid < "nd1S04218"
+) a where (
+	select count(*) from (
+		select * from ((select id, date, camera, subjectid, eye, color, weather, fileid from irises_still) irises inner join files using (fileid) inner join subjects using (subjectid)) where subjectid < "nd1S04218"
+	) b where a.gender=b.gender and a.eye=b.eye and a.id >= b.id)
+<= 2 order by gender, eye;
+## one line ##
+select * from (select * from ((select id, date, camera, subjectid, eye, color, weather, fileid from irises_still) irises inner join files using (fileid) inner join subjects using (subjectid)) where subjectid < "nd1S04218") a where (select count(*) from (select * from ((select id, date, camera, subjectid, eye, color, weather, fileid from irises_still) irises inner join files using (fileid) inner join subjects using (subjectid)) where subjectid < "nd1S04218") b where a.gender=b.gender and a.eye=b.eye and a.id >= b.id) <= 2 order by gender, eye;
+select * from (select * from ((select id, date, camera, subjectid, eye, color, weather, fileid from irises_still) irises inner join files using (fileid) inner join subjects using (subjectid))) a where (select count(*) from (select * from ((select id, date, camera, subjectid, eye, color, weather, fileid from irises_still) irises inner join files using (fileid) inner join subjects using (subjectid))) b where a.gender=b.gender and a.eye=b.eye and a.id >= b.id) <= 2 order by gender, eye;
+
