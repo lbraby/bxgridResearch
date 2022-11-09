@@ -44,7 +44,7 @@ MEDIA TABLES
 {subjectsAttributes}
 
 Options:
-    -outcsv  FILENAME    specify output file (default FILENAME = export_{{timestamp}}.csv)
+    -outcsv  FILENAME    specify output file (default FILENAME: export_{{timestamp}}.csv)
     -limit   N           set maximum number of file ids to query
     -where   CONDITIONS  limit query to files fulfilling conditions;
                          condtions written in SQL WHERE clause syntax
@@ -102,6 +102,9 @@ def main():
     overwrite = False
     tablename = ""
 
+    if len(arguments) == 0:
+        usage(1)
+        return 1
     # parse command line arguments
     while arguments and arguments[0].startswith('-'):
         argument = arguments.pop(0)

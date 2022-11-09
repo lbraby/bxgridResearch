@@ -7,6 +7,7 @@ import getpass
 import datetime
 import subprocess
 import mysql.connector
+from typing import List, Dict
 from tqdm import tqdm
 
 # connect to database with user credentials
@@ -70,7 +71,7 @@ def write_file_json(file, dictionary, filename):
 # chirp files and store metdata in root and leaf json files
 # nofiles = False
 failedHosts = set()
-def chirp_replica(replicas, fileResult, filename, dirPath, filePath, largeMetadata):
+def chirp_replica(entry, replicas, fileInfo, filename, filePath):
     skippedHosts = set()
     # attempt chirp until file successfully chirped
     for replica in replicas:
@@ -85,13 +86,11 @@ def chirp_replica(replicas, fileResult, filename, dirPath, filePath, largeMetada
         if subprocess.call(f'/afs/crc.nd.edu/group/ccl/software/x86_64/redhat8/cctools/current/bin/chirp {host} get {path} {filePath}', shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT) == 0:
             md5sum = os.popen(f'md5sum {filePath}').read().split()[0]
 
-            if md5sum == fileResult['checksum']: # file successfully chirped
-                # write metadata to root and leaf json files
-                write_metadata(fileResult, filename, dirPath, filePath, largeMetadata, False)
+            if md5sum == fileInfo['checksum']: # file successfully chirped
                 return 0
             else:
                 os.remove(filePath)     # remove file with incorrect md5sum
-                print(f"Warning: {filename} from host {host} does not match md5sum in metadata.         removing invalid file from filesystem")
+                print(f"Warning: {filename} from host {host} does not match md5sum in metadata\n         removing invalid file from filesystem")
 
         print(f"Warning: {filename} failed to be retreived from host {host}")
         failedHosts.add(host)
@@ -116,24 +115,12 @@ def write_metadata(fileResult, filename, dirPath, filePath, largeMetadata, dryru
         metadata.write(json.dumps(data, indent=4))
     return 0
 
-# write subject metadata for new subjects (empty dictionary)
-def write_subjects_info(root, connection):
-    subjectids = []
-    with open(root + '/metadata.json', 'r') as metadata:
-        data = json.load(metadata)
-        for subject in data["subjects"]:
-            if not data["subjects"][subject]:
-                subjectids.append(subject)
-
-        subjects = query("select * from subjects where subjectid in ({})".format(','.join(['"{}"'.format(sub) for sub in subjectids])), connection)
-        for subject in tqdm(subjects, total = len(subjects), desc="storing subject info"):
-            data["subjects"][subject["subjectid"]] = subject
-    with open(root + '/metadata.json', 'w') as metadata:
-        metadata.write(json.dumps(data, indent=4))
-
 # return sorted dictionary of replica metadata
 def query_replicas(fileids, connection):
-    replicas = query("select * from replicas where fileid in ({})".format(','.join(map(str, fileids.keys()))), connection)
+    replicas = query("select * from replicas where fileid in ({})".format(','.join(map(str, fileids))), connection)
+
+    keys = replicas[0]
+    replicas = [dict(zip(keys, entry)) for entry in replicas[1:] ]
 
     sortedReplicas = {}
     for replica in replicas:
@@ -144,21 +131,75 @@ def query_replicas(fileids, connection):
 
     return sortedReplicas
 
-# chirp files into filesystem with metadata at root and leaves
-def chirp_files(files, root, schema, connection = None, nofiles = False):
-    if not nofiles:
-        replicas = query_replicas(files, connection)
+def query_files(fileids, connection):
+    files = query("select * from files where fileid in ({})".format(','.join(map(str, fileids))), connection)
 
-    for fileid in tqdm(files, total = len(files), desc="chirping files with metadata" if not nofiles else "storing metadata"):
-        dirPath = root + '/'.join(files[fileid][attribute] for attribute in schema)
+    keys = files[0]
+    files = [dict(zip(keys, entry)) for entry in files[1:] ]
+
+    sortedFiles = {}
+    for file in files:
+        sortedFiles[file["fileid"]] = file
+
+    return sortedFiles
+
+# chirp files into filesystem
+def chirp_files(queryData, headdir, schema):
+    fileids = [entry["fileid"] for entry in queryData]
+
+    connection = connect()
+    if not connection: # failed to connect
+        print("failed to connect to ccldb.crc.nd.edu biometrics database")
+        return 1
+
+    replicas = query_replicas(fileids, connection)
+    files = query_files(fileids, connection)
+
+    for entry in tqdm(queryData, total = len(queryData), desc="chirping files with metadata"):
+        dirPath = headdir + '/'.join([str(entry[attribute]) for attribute in schema]) + '/'
         if not os.path.exists(dirPath): # create directory branch
             os.makedirs(dirPath)
-        filename = str(files[fileid]["fileid"]) + '.' + files[fileid]["extension"]
-        filePath = dirPath + '/' + filename
-        largeMetadata = root + 'metadata.json'
 
-        if not nofiles: # chirp files
-            chirp_replica(replicas[fileid], files[fileid], filename, dirPath, filePath, largeMetadata)
-        else:
-            write_metadata(files[fileid], filename, dirPath, filePath, largeMetadata)
+        fileid = entry["fileid"]
+        filename = str(fileid) + "." + files[fileid]["extension"]
+        filePath = dirPath + filename
+
+        if chirp_replica(entry, replicas[fileid], files[fileid], filename, filePath) == 0:
+            write_metadata(entry, filename, dirPath, filePath, headdir + "metadata.json")
+
+def construct_tree_nochirp(queryData, headdir, schema):
+    fileids = [entry["fileid"] for entry in queryData]
+
+    connection = connect()
+    if not connection: # failed to connect
+        print("failed to connect to ccldb.crc.nd.edu biometrics database")
+        return 1
+
+    files = query_files(fileids, connection)
+
+    for entry in tqdm(queryData, total = len(queryData), desc="constructing filesystem (metadata only)"):
+        dirPath = headdir + '/'.join([str(entry[attribute]) for attribute in schema]) + '/'
+        if not os.path.exists(dirPath): # create directory branch
+            os.makedirs(dirPath)
+
+        fileid = entry["fileid"]
+        filename = str(fileid) + "." + files[fileid]["extension"]
+        filePath = dirPath + filename
+
+        write_metadata(entry, filename, dirPath, filePath, headdir + "metadata.json", chirping=False)
+
+def write_metadata(dataEntry, filename, dirPath, filePath, largeMetadata, chirping = True):
+    # store metadata in leaf json
+    write_file_json(dirPath + '/metadata_refined.json', dataEntry, filename)
+
+    # store metadata in root json
+    with open(largeMetadata, 'r') as metadata:
+        data = json.load(metadata)
+        if chirping:
+            data['chirped-fileids'].append(dataEntry["fileid"])
+        data['files'][filename] = {'path': filePath,
+                                   'metadata': dataEntry}
+    with open(largeMetadata, 'w') as metadata:
+        metadata.write(json.dumps(data, indent=4))
+    return 0
 
