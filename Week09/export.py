@@ -83,7 +83,6 @@ def export_query(customQuery: str, outfile: str):
 def export(tablename: str, limit: int, conditions: str, attributes: List[str], outfile: str):
     whereClause = "WHERE " + conditions if conditions else ""
     if conditions: whereClause = whereClause.replace("subjectid", f"{tablename}.subjectid").replace("fileid", f"{tablename}.fileid") # avoid ambiguity in where clauses
-    print(whereClause)
     limitClause = "limit " + str(limit) if limit != None else ""
     attributes = ', '.join(attributes).replace("subjectid", f"{tablename}.subjectid").replace("fileid", f"{tablename}.fileid")
 

@@ -73,28 +73,32 @@ def save_materialization(commandLine, csvfile, headdir, schema, fileid, force, n
         latest.write(json.dumps(query, indent=4))
 
 def materialization_precheck(csvfile, headdir, schema, fileid, force, nofiles):
+    if not os.path.isfile(csvfile):
+        print(f"materialize: cannot access '{os.path.relpath(csvfile, start = os.curdir)}': No such file")
+        return False
+
     if os.path.isdir(headdir):
         if not force[0]:
-            print(f"materialize: head directory already exists\n             to materialize into already existing directory, use '-force' flag and equivalent schema")
+            print(f"materialize: directory '{os.path.relpath(headdir, start = os.curdir)}' already exists\n             to materialize into already existing directory, use '-force' flag and equivalent schema")
             return False
 
         largeMetadata = headdir + 'metadata.json'
         if not os.path.isfile(largeMetadata):
-            print("materialize: head directory does not contain metadata.json")
+            print(f"materialize: directory '{os.path.relpath(headdir, start = os.curdir)}' does not contain metadata.json")
             return False
         with open(largeMetadata, 'r') as metadata:
             data = json.load(metadata)
             if data["schema"] != schema:
-                print("materialize: schema doe not match that of head directory\n             to specify a new schema, use '-schema' flag")
-                return False
-
-        with open(csvfile, newline='') as file:
-            attributes = next(csv.reader(file))
-            if not all(attr in attributes for attr in schema):
-                print("materialize: at lease one attribute in schema not found in CSVFILE")
+                print(f"materialize: schema does not match that of already existing directory '{os.path.relpath(headdir, start = os.curdir)}'\n             to specify a new schema, use '-schema' flag")
                 return False
     else:
         force[0] = False
+
+    with open(csvfile, newline='') as file:
+        attributes = next(csv.reader(file))
+        if not all(attr in attributes for attr in schema):
+            print(f"materialize: at lease one attribute in schema not found in '{os.path.relpath(csvfile, start = os.curdir)}'")
+            return False
 
     return True
 
@@ -167,7 +171,14 @@ def main():
         elif argument == '-nofiles':
             nofiles = True
         elif argument == '-resume':
-            continue # TODO
+            try:
+                with open(os.path.expanduser('~') + "/.bxgrid/latest_materialization.json", 'r') as latest:
+                    data = json.load(latest)
+                    return materialize(data["csv input file"], data["headdir"], data["schema"], data["fileid alias"], True, data["nofiles"])
+            except IOError:
+                print("materialize: no materialization to resume")
+                return 1
+
         else:
             usage(1)
             return 1
@@ -183,7 +194,7 @@ def main():
         headdir = "materialization" + datetime.now().strftime("%Y_%m_%d-%I_%M_%S_%p")
     headdirPath = os.path.abspath(headdir) + '/'
 
-    save_materialization(commandLine, csvfile, headdir, schema, fileid, force, nofiles)
+    save_materialization(commandLine, csvfile, headdirPath, schema, fileid, force, nofiles)
 
     return materialize(csvfile, headdirPath, schema, fileid, force, nofiles)
 
