@@ -98,23 +98,6 @@ def chirp_replica(entry, replicas, fileInfo, filename, filePath):
     print(f"Error: {filename} could not be retreived")
     return 1
 
-# write metadata to root and leaf json files
-def write_metadata(fileResult, filename, dirPath, filePath, largeMetadata, dryrun = True):
-    # store metadata in leaf json
-    write_file_json(dirPath + '/metadata_refined.json', fileResult, filename)
-    # store metadata in root json
-    with open(largeMetadata, 'r') as metadata:
-        data = json.load(metadata)
-        if not dryrun:
-            data['chirped-fileids'].append(fileResult["fileid"])
-        data['files'][filename] = {'path': filePath,
-                                   'metadata': fileResult}
-        if fileResult["subjectid"] not in data['subjects']:
-            data['subjects'][fileResult['subjectid']] = {}
-    with open(largeMetadata, 'w') as metadata:
-        metadata.write(json.dumps(data, indent=4))
-    return 0
-
 # return sorted dictionary of replica metadata
 def query_replicas(fileids, connection):
     replicas = query("select * from replicas where fileid in ({})".format(','.join(map(str, fileids))), connection)
