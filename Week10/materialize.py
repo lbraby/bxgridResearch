@@ -24,6 +24,7 @@ Options:
                          use when fileid attribute has alias
     -force               allow materialization into existing directory as long as schemas match
     -nofiles             run materialization without downloading files
+    -smartchirp          allow materializer to use local files (may increase performance)
     -resume              execute last materialization from the beginning
                          materialization will be run as if -force flag present
                          useful when materialization ends prematurely
@@ -39,14 +40,15 @@ def floatAttempt(num: str):
     else:
         return num
 
-def save_materialization(commandLine, csvfile, headdir, schema, fileid, force, nofiles):
+def save_materialization(commandLine, csvfile, headdir, schema, fileid, force, nofiles, smartchirp):
     query = {"command line": commandLine,
              "csv input file": csvfile,
              "headdir": headdir,
              "schema": schema,
              "fileid alias": fileid,
              "force": force,
-             "nofiles": nofiles}
+             "nofiles": nofiles,
+             "smartchirp": smartchirp}
     bxgridDirectory = os.path.expanduser('~') + "/.bxgrid/"
     historyFile = bxgridDirectory + "history_materializations.json"
     lastMaterializationFile = bxgridDirectory + "latest_materialization.json"
@@ -102,7 +104,7 @@ def materialization_precheck(csvfile, headdir, schema, fileid, force, nofiles):
 
     return True
 
-def materialize(csvfile, headdir, schema, fileid, force, nofiles):
+def materialize(csvfile, headdir, schema, fileid, force, nofiles, smartchirp):
     force = [force]
     if not materialization_precheck(csvfile, headdir, schema, fileid, force, nofiles):
         return 1
@@ -135,7 +137,7 @@ def materialize(csvfile, headdir, schema, fileid, force, nofiles):
         return 0
 
     if not nofiles:
-        database.chirp_files(csvData, headdir, schema)
+        database.chirp_files(csvData, headdir, schema, smartchirp)
     else:
         database.construct_tree_nochirp(csvData, headdir, schema)
 
@@ -149,6 +151,7 @@ def main():
     fileid = "fileid"
     force = False
     nofiles = False
+    smartchirp = False
     csvfile = ""
 
     if len(arguments) == 0:
@@ -170,11 +173,13 @@ def main():
             force = True
         elif argument == '-nofiles':
             nofiles = True
+        elif argument == '-smartchirp':
+            smartchirp = True
         elif argument == '-resume':
             try:
                 with open(os.path.expanduser('~') + "/.bxgrid/latest_materialization.json", 'r') as latest:
                     data = json.load(latest)
-                    return materialize(data["csv input file"], data["headdir"], data["schema"], data["fileid alias"], True, data["nofiles"])
+                    return materialize(data["csv input file"], data["headdir"], data["schema"], data["fileid alias"], True, data["nofiles"], data["smartchirp"])
             except IOError:
                 print("materialize: no materialization to resume")
                 return 1
@@ -198,9 +203,9 @@ def main():
         with open(os.path.expanduser('~') + "/.bxgrid/chirpedFiles.json", "w") as chirpedFiles:
             chirpedFiles.write(json.dumps({}, indent=4))
 
-    save_materialization(commandLine, csvfile, headdirPath, schema, fileid, force, nofiles)
+    save_materialization(commandLine, csvfile, headdirPath, schema, fileid, force, nofiles, smartchirp)
 
-    return materialize(csvfile, headdirPath, schema, fileid, force, nofiles)
+    return materialize(csvfile, headdirPath, schema, fileid, force, nofiles, smartchirp)
 
 if __name__ == "__main__":
     main()
