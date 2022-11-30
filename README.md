@@ -63,3 +63,17 @@ Fall 2022 Research work for Notre Dame's [Biometrics Research Grid](https://bxgr
 - after meeting, approach for next week is 2-phase materialization
   - fist phase is getting data (mandatory)
   - second phase is file retrieval into directory tree (optional)
+### Week 9
+- separate command line materializer into two separate programs
+  - export
+    - store queried data from bxgrid in csv
+    - use sytax similar to previous materializer tool or custom sql queries
+  - materialize
+    - read in data from csv
+    - store files and metadata in schema provided by user
+### Week 10
+- switched to using Python chirp module
+  - Ben Tovar helped me get it working
+- reuse downloaded files
+  - after chirping, store file path in $HOME/.bxgrid/chirpedFiles.json
+  - when getting files, first check above json for file if '-smartchirp' flag passed
