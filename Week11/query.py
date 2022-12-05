@@ -40,9 +40,7 @@ def help(status=0):
     command = os.path.basename(sys.argv[0])
     print(f'''Usage: {command} [option...] TABLE
 Query data from bxgrid's biometrics database and store in csv file
-Use tool syntax or custom queries (with -mysql flag)
-
-Tables: faces_still, faces_3d, faces_mov, irises_still, irises_mov
+Example: {command} -limit 100 -outcsv test.csv faces_still
 
 Options:
     Required:
@@ -54,15 +52,16 @@ Options:
         -mysql   QUERY       use custom mysql query
                              does not require TABLE to be specified
                              (ex: -mysql "select * from faces_still inner join subjects on subjectid")
-        -schema  ATTRIBUTES  select attributes (columns in outputted csv) to query
-                             ATTRIBUTES in form attr1/attr2/...
-                             attr's may come from TABLENAME, files, or subjects tables
-                             by default, all attributes selected
         -where   CONDITIONS  limit query to files fulfilling conditions;
                              condtions written in SQL WHERE clause syntax
                              (ex: -where "subjectid='nd1S04261' and date='2008-04-01'")
+        -schema  ATTRIBUTES  select ATTRIBUTES (in form attr1/attr2/...) to query
+                             by default, all attributes selected
+                             attributes may come from TABLE, file or subjects (consult documentation)
         -overwrite           if output file already exists, overwrite
-        -credentials         do not use previously cached credentials to access bxgrid
+        -credentials         do not use previously saved credentials to access bxgrid
+
+Tables: faces_still, faces_3d, faces_mov, irises_still, irises_mov
           ''')
     sys.exit(status)
 
@@ -143,29 +142,31 @@ def main():
             print(f"query: unrecognized option '{argument}'")
             usage(1)
 
-    if limit == None and not customQuery:
-        print("query: must specify limit using '-limit' flag")
-        usage(1)
-
     if len(arguments) == 0 and not customQuery:
         print("query: missing TABLE argument\nTry '-help' flag for more information")
         return 1
+
+    if not customQuery:
+        tablename = arguments.pop(0)
+        if tablename not in TABLES:
+            print(f"query: invalid TABLE '{tablename}' specified")
+            usage(1)
+
+    if limit == None and not customQuery:
+        print("query: must specify limit using '-limit' flag")
+        usage(1)
 
     if not outfile: # default output file name
         outfile = "query_" + datetime.now().strftime("%Y_%m_%d-%I_%M_%S_%p") + ".csv"
     outfile = os.path.abspath(outfile)
 
     if not overwrite and os.path.exists(outfile):
-        print(f"query: outcsv {outfile} already exists\n       to overwrite an already existing file, use '-overwrite'")
-        return 1
+        print(f"query: outcsv {os.path.relpath(outfile, start = os.curdir)} already exists\n       use '-overwrite' to overwrite file")
+        usage(1)
 
     if customQuery:
         return export_query(customQuery, outfile)
     else:
-        tablename = arguments.pop(0)
-        if tablename not in TABLES:
-            print(f"query: invalid TABLE '{tablename}' specified")
-            usage(1)
         return export(tablename, limit, conditions, attributes, outfile)
 
 

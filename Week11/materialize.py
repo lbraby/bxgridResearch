@@ -17,25 +17,24 @@ Pass '-help' flag for more information""")
 def help(status=0):
     command = os.path.basename(sys.argv[0])
     print(f'''Usage: {command} [option...] CSVFILE
-materialize data from provided csv into filesystem with specified schema
+Materialize data from provided csv into filesystem
+Example: {command} -headdir testFiles -schema date test.csv
 
 Options:
     -headdir DIR         set name of top level directory for materialization
-                         default DIR: materialization_{{timestamp}}
-    -schema  SCHEME      set schema for directory tree
-                         SCHEME in form attr1/attr2/... where attr is column in CSVFILE
-                         (ex: -schema subjectid/date)
-    -fileid  ATTR        specify which field contains fileids for chirping
-                         default ATTR: fileid
-                         use when fileid attribute has alias
-    -force               allow materialization into existing directory as long as schemas match
+                         if head directory not specified, DIR = materialization_{{timestamp}}
+    -schema  SCHEME      set schema (in form attr1/attr2/...) for directory tree
+                         attributes limited to CSVFILE column names
     -nofiles             run materialization without downloading files
+                         only metadata and directory tree are created
     -smartdownload       allow materializer to use local files when available
                          this may increase the speed of materialization
+    -force               allow materialization into existing directory as long as schemas match
     -resume              execute last materialization from the beginning
-                         materialization will be run as if -force flag present
                          useful when materialization ends prematurely
                          files will not be overwritten
+    -fileid  ATTR        specify which field contains fileids for materialization
+                         if field not specified, ATTR = fileid
           ''')
     sys.exit(status)
 
@@ -88,7 +87,7 @@ def materialization_precheck(csvfile, headdir, schema, fileid, force, nofiles):
 
     if os.path.isdir(headdir):
         if not force[0]:
-            print(f"materialize: directory '{os.path.relpath(headdir, start = os.curdir)}' already exists\n             to materialize into already existing directory, use '-force' flag and equivalent schema")
+            print(f"materialize: directory '{os.path.relpath(headdir, start = os.curdir)}' already exists\n             use '-force' to materialize into directory")
             return False
 
         largeMetadata = headdir + 'metadata.json'
@@ -98,7 +97,7 @@ def materialization_precheck(csvfile, headdir, schema, fileid, force, nofiles):
         with open(largeMetadata, 'r') as metadata:
             data = json.load(metadata)
             if data["schema"] != schema:
-                print(f"materialize: schema does not match that of already existing directory '{os.path.relpath(headdir, start = os.curdir)}'\n             to specify a new schema, use '-schema' flag")
+                print(f"materialize: schema does not match that of already existing directory '{os.path.relpath(headdir, start = os.curdir)}'")
                 return False
     else:
         force[0] = False
@@ -114,7 +113,7 @@ def materialization_precheck(csvfile, headdir, schema, fileid, force, nofiles):
 def materialize(csvfile, headdir, schema, fileid, force, nofiles, smartchirp):
     force = [force]
     if not materialization_precheck(csvfile, headdir, schema, fileid, force, nofiles):
-        return 1
+        usage(1)
     force = force[0]
 
     connection = database.connect()
@@ -146,10 +145,10 @@ def materialize(csvfile, headdir, schema, fileid, force, nofiles, smartchirp):
 
     if not nofiles:
         database.chirp_files(csvData, headdir, schema, smartchirp)
-        print(f"materialize: successfully downloaded files into {os.path.relpath(headdir)}")
+        print(f"materialize: successfully downloaded files into {os.path.relpath(headdir, start = os.curdir)}")
     else:
         database.construct_tree_nochirp(csvData, headdir, schema)
-        print(f"materialize: successfully downloaded metadata into {os.path.relpath(headdir)}")
+        print(f"materialize: successfully downloaded metadata into {os.path.relpath(headdir, start = os.curdir)}")
 
     return 0
 
@@ -200,7 +199,7 @@ def main():
         usage(1)
     csvfile = os.path.abspath(arguments.pop(0))
     if not os.path.exists(csvfile):
-        print("materialize: specified csv file does not exist\n             Try a different file or make sure file exists")
+        print("materialize: specified csv file does not exist")
         usage(1)
 
     if not headdir:
