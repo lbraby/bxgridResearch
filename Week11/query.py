@@ -48,7 +48,7 @@ Options:
                              '-limit unlimited' to query all entries
     Optional:
         -outcsv  FILENAME    specify output file
-                             if outcsv not specified, FILENAME = export_{{timestamp}}.csv
+                             if outcsv not specified, FILENAME = query_{{timestamp}}.csv
         -mysql   QUERY       use custom mysql query
                              does not require TABLE to be specified
                              (ex: -mysql "select * from faces_still inner join subjects on subjectid")

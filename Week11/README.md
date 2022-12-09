@@ -28,7 +28,7 @@ query.py [option...] TABLE
   - required unless using a custom MySQL query  
 - -outcsv FILENAME
   - specify output file for query tool
-  - if flag not passed, FILENAME = export_{{timestamp}}.csv  
+  - if flag not passed, FILENAME = query_{{timestamp}}.csv  
 - -mysql QUERY
   - use a custom MySQL query
   - removes the need to specify a TABLE  
