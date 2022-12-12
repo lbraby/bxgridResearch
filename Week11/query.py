@@ -65,6 +65,7 @@ Tables: faces_still, faces_3d, faces_mov, irises_still, irises_mov
           ''')
     sys.exit(status)
 
+# query database and store results in csv format
 def export_query(customQuery: str, outfile: str):
     connection = database.connect()
     if not connection: # failed to connect
@@ -83,6 +84,7 @@ def export_query(customQuery: str, outfile: str):
     print(f"query: saved data successfully in {os.path.relpath(outfile)}")
     return 0
 
+# translate user input into MySQL query and call export_query
 def export(tablename: str, limit: int, conditions: str, attributes: List[str], outfile: str):
     whereClause = "WHERE " + conditions if conditions else ""
     if conditions: whereClause = whereClause.replace("subjectid", f"{tablename}.subjectid").replace("fileid", f"{tablename}.fileid") # avoid ambiguity in where clauses
