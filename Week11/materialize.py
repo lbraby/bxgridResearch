@@ -38,7 +38,7 @@ Options:
           ''')
     sys.exit(status)
 
-def floatAttempt(num: str):
+def numAttempt(num: str):
     if num.isdigit():
         return int(num)
     elif num.replace('.', '', 1).isdigit():
@@ -122,7 +122,7 @@ def materialize(csvfile, headdir, schema, fileid, force, nofiles, smartchirp):
         return 1
 
     with open(csvfile) as file:
-        csvData = [{"fileid" if k == fileid else k: floatAttempt(v) for k, v in row.items()} for row in csv.DictReader(file, skipinitialspace=True)]
+        csvData = [{"fileid" if k == fileid else k: numAttempt(v) for k, v in row.items()} for row in csv.DictReader(file, skipinitialspace=True)]
 
     if not force:
         os.makedirs(headdir)

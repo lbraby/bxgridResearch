@@ -9,7 +9,6 @@ import getpass
 import datetime
 import subprocess
 import mysql.connector
-from typing import List, Dict
 from tqdm import tqdm
 
 # connect to database with user credentials
@@ -169,7 +168,6 @@ def chirp_files(queryData, headdir, schema, smartchirp):
     with open(os.path.expanduser('~') + "/.bxgrid/chirpedFiles.json", "r") as file:
         existingFiles = json.load(file)
 
-    #pbar = tqdm(queryData, total = len(queryData), desc=f"chirping files with metadata [{rate}]")
     for i, entry in enumerate(tqdm(queryData, total = len(queryData), desc="chirping files with metadata")):
         if i % 50 == 0:
             with open(os.path.expanduser('~') + "/.bxgrid/chirpedFiles.json", "w") as file:
@@ -184,12 +182,6 @@ def chirp_files(queryData, headdir, schema, smartchirp):
         filePath = dirPath + filename
 
         if chirp_replica(entry, replicas[fileid], files[fileid], existingFiles, filename, filePath, smartchirp) == 0:
-            #rates.append((os.path.getsize(filePath), time.time()))
-            #rate = "0 MB/s" if len(rates) < 2 else str(round((rates[-1][0]-rates[-2][0])/(rates[-1][1]-rates[-2][1])))
-            #if len(rates) == 3:
-            #    rates.pop(0)
-            #pbar.set_description(f"chirping files with metadata [{rate}]")
-            #print(rate)
             write_metadata(entry, filename, dirPath, filePath, headdir + "metadata.json")
 
     with open(os.path.expanduser('~') + "/.bxgrid/chirpedFiles.json", "w") as file:
